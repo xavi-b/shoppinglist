@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
         Qt::QueuedConnection);
 
     QObject::connect(&app, &QGuiApplication::aboutToQuit, &s, &Singleton::saveSettings);
+    QObject::connect(&app, &QGuiApplication::applicationStateChanged, &s, &Singleton::saveSettings);
 
     engine.load(url);
 

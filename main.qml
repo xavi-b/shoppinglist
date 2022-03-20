@@ -82,12 +82,25 @@ Window {
             }
 
             RoundButton {
+                id: plusBtn
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 anchors.margins: 5
                 text: "+"
                 onClicked: {
                     popup.open()
+                }
+            }
+
+            RoundButton {
+                anchors.right: plusBtn.left
+                anchors.bottom: parent.bottom
+                anchors.margins: 5
+                text: "u"
+                onClicked: {
+                    for (var i = 0; i < Singleton.model.length; ++i) {
+                        Singleton.model[i].checked = false
+                    }
                 }
             }
         }
