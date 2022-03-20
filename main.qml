@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Singleton
 
 Window {
     width: 640
@@ -15,27 +16,24 @@ Window {
             Layout.fillHeight: true
             Layout.fillWidth: true
             id: listview
-            model: 3
+            model: Singleton.model
 
             delegate: SwipeDelegate {
                 id: swipeDelegate
                 width: listview.width
 
-                spacing: 5
-
-                text: modelData
-
-                palette.base: checkbox.checked ? "lightgreen" : "salmon"
-                palette.button: Qt.lighter(palette.base, 1.2)
+                text: modelData.title
 
                 contentItem: RowLayout {
                     Label {
                         Layout.fillWidth: true
-                        text: modelData
+                        text: modelData.title
+                        color: "black"
                     }
                     CheckBox {
                         id: checkbox
-                        checked: true
+                        checked: modelData.checked
+                        onCheckedChanged: modelData.checked = checked
                     }
                 }
 
@@ -72,8 +70,7 @@ Window {
                     anchors.right: parent.right
 
                     SwipeDelegate.onClicked: {
-
-                        // TODO
+                        Singleton.remove(index)
                     }
 
                     background: Rectangle {
@@ -90,8 +87,53 @@ Window {
                 anchors.margins: 5
                 text: "+"
                 onClicked: {
+                    popup.open()
+                }
+            }
+        }
+    }
 
-                    // TODO
+    Popup {
+        id: popup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        width: parent.width - 50
+        height: 150
+
+        modal: true
+        focus: true
+
+        onOpened: textedit.forceActiveFocus()
+
+        contentItem: Item {
+            TextField {
+                id: textedit
+                clip: true
+                anchors.left: parent.left
+                anchors.right: parent.right
+            }
+
+            Row {
+                id: row
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                spacing: 5
+
+                Button {
+                    text: qsTr("Cancel")
+                    onClicked: {
+                        textedit.clear()
+                        popup.close()
+                    }
+                }
+
+                Button {
+                    text: qsTr("Add")
+                    onClicked: {
+                        Singleton.add(textedit.text)
+                        textedit.clear()
+                        popup.close()
+                    }
                 }
             }
         }
