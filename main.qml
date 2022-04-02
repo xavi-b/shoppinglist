@@ -37,8 +37,10 @@ Window {
                     }
                 }
 
-                onClicked: {
-                    checkbox.toggle()
+                onPressAndHold: {
+                    popup.modelData = modelData
+                    popup.edit = true
+                    popup.open()
                 }
 
                 ListView.onRemove: SequentialAnimation {
@@ -88,6 +90,7 @@ Window {
                 anchors.margins: 5
                 text: "+"
                 onClicked: {
+                    popup.edit = false
                     popup.open()
                 }
             }
@@ -118,12 +121,16 @@ Window {
 
         onOpened: textedit.forceActiveFocus()
 
+        property bool edit: false
+        property var modelData: undefined
+
         contentItem: Item {
             TextField {
                 id: textedit
                 clip: true
                 anchors.left: parent.left
                 anchors.right: parent.right
+                text: popup.edit ? popup.modelData.title : ""
             }
 
             Row {
@@ -141,9 +148,13 @@ Window {
                 }
 
                 Button {
-                    text: qsTr("Add")
+                    text: popup.edit ? qsTr("Edit") : qsTr("Add")
                     onClicked: {
-                        Singleton.add(textedit.text)
+                        if (popup.edit) {
+                            popup.modelData.title = textedit.text
+                        } else {
+                            Singleton.add(textedit.text)
+                        }
                         textedit.clear()
                         popup.close()
                     }
