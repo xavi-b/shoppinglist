@@ -24,6 +24,10 @@ Window {
 
                 text: modelData.title
 
+                function remove() {
+                    Singleton.remove(index)
+                }
+
                 contentItem: RowLayout {
                     Label {
                         Layout.fillWidth: true
@@ -71,9 +75,7 @@ Window {
                     height: parent.height
                     anchors.right: parent.right
 
-                    SwipeDelegate.onClicked: {
-                        Singleton.remove(index)
-                    }
+                    SwipeDelegate.onClicked: swipeDelegate.remove()
 
                     background: Rectangle {
                         color: deleteLabel.SwipeDelegate.pressed ? Qt.darker(
