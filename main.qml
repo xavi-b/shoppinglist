@@ -83,6 +83,35 @@ Window {
                                                                        1.1) : "tomato"
                     }
                 }
+
+                Timer {
+                    id: timer
+                }
+
+                function delay(delayTime, cb) {
+                    timer.interval = delayTime
+                    timer.repeat = false
+                    timer.triggered.connect(cb)
+                    timer.start()
+                }
+
+                swipe.left: Rectangle {
+                    color: "AliceBlue"
+                    height: parent.height
+                    anchors.left: parent.left
+                    width: 100
+
+                    SwipeDelegate.onClicked: swipeDelegate.swipe.close()
+                }
+
+                swipe.onCompleted: {
+                    if (swipe.position == 1.0) {
+                        checkbox.toggle()
+                        delay(10, function () {
+                            swipeDelegate.swipe.close()
+                        })
+                    }
+                }
             }
 
             RoundButton {
