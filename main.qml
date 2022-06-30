@@ -114,6 +114,10 @@ Window {
                 }
             }
 
+            footer: Item {
+                height: plusBtn.height + plusBtn.anchors.margins * 2
+            }
+
             RoundButton {
                 id: plusBtn
                 anchors.right: parent.right
