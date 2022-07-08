@@ -7,7 +7,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("ShoppingList")
 
     ColumnLayout {
         anchors.fill: parent
@@ -131,14 +131,25 @@ Window {
             }
 
             RoundButton {
+                id: unselectBtn
                 anchors.right: plusBtn.left
                 anchors.bottom: parent.bottom
                 anchors.margins: 5
-                text: "u"
+                text: "U"
                 onClicked: {
                     for (var i = 0; i < Singleton.model.length; ++i) {
                         Singleton.model[i].checked = false
                     }
+                }
+            }
+
+            RoundButton {
+                anchors.right: unselectBtn.left
+                anchors.bottom: parent.bottom
+                anchors.margins: 5
+                text: "S"
+                onClicked: {
+                    Singleton.sortByChecked()
                 }
             }
         }

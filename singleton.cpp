@@ -28,6 +28,11 @@ QVariantMap Item::toVariantMap() const
     return map;
 }
 
+bool Item::isChecked() const
+{
+    return checked;
+}
+
 Singleton::Singleton(QObject* parent)
     : QObject{parent}
 {
@@ -48,6 +53,14 @@ void Singleton::add(const QString& title)
 void Singleton::add(Item* item)
 {
     model.append(QVariant::fromValue(qobject_cast<QObject*>(item)));
+    emit modelChanged();
+}
+
+void Singleton::sortByChecked()
+{
+    std::sort(model.begin(), model.end(), [](QVariant const& a, QVariant const& b) {
+        return a.value<Item*>()->isChecked() > b.value<Item*>()->isChecked();
+    });
     emit modelChanged();
 }
 

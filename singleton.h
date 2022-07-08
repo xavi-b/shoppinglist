@@ -18,6 +18,8 @@ public:
     static Item* fromVariantMap(QVariantMap const& map);
     QVariantMap  toVariantMap() const;
 
+    bool isChecked() const;
+
 signals:
     void titleChanged();
     void checkedChanged();
@@ -40,6 +42,8 @@ public:
     Q_INVOKABLE
     void add(QString const& title);
     void add(Item* item);
+    Q_INVOKABLE
+    void sortByChecked();
 
     bool loadSettings();
 
