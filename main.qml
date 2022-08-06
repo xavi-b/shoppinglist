@@ -20,9 +20,10 @@ Window {
 
             delegate: SwipeDelegate {
                 id: swipeDelegate
+
                 width: listview.width
 
-                text: modelData.title
+                text: model.title
 
                 function remove() {
                     Singleton.remove(index)
@@ -31,18 +32,18 @@ Window {
                 contentItem: RowLayout {
                     Label {
                         Layout.fillWidth: true
-                        text: modelData.title
+                        text: model.title
                         color: "black"
                     }
                     CheckBox {
                         id: checkbox
-                        checked: modelData.checked
-                        onCheckedChanged: modelData.checked = checked
+                        checked: model.selected
+                        onCheckedChanged: model.selected = checkbox.checked
                     }
                 }
 
                 onPressAndHold: {
-                    popup.modelData = modelData
+                    popup.modelData = model
                     popup.edit = true
                     popup.open()
                 }
@@ -78,9 +79,7 @@ Window {
                     SwipeDelegate.onClicked: swipeDelegate.remove()
 
                     background: Rectangle {
-                        color: deleteLabel.SwipeDelegate.pressed ? Qt.darker(
-                                                                       "tomato",
-                                                                       1.1) : "tomato"
+                        color: deleteLabel.SwipeDelegate.pressed ? Qt.darker("tomato", 1.1) : "tomato"
                     }
                 }
 
@@ -200,6 +199,7 @@ Window {
                             popup.modelData.title = textedit.text
                         } else {
                             Singleton.add(textedit.text)
+                            listview.positionViewAtEnd()
                         }
                         textedit.clear()
                         popup.close()

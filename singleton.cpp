@@ -1,46 +1,14 @@
 #include "singleton.h"
 
-Item::Item(QObject* parent)
-    : QObject(parent)
-{
-}
-
-Item::Item(QString title, bool checked, QObject* parent)
-    : QObject(parent),
-      title(title),
-      checked(checked)
-{
-}
-
-Item* Item::fromVariantMap(const QVariantMap& map)
-{
-    Item* item    = new Item;
-    item->checked = map["checked"].toBool();
-    item->title   = map["title"].toString();
-    return item;
-}
-
-QVariantMap Item::toVariantMap() const
-{
-    QVariantMap map;
-    map["checked"] = checked;
-    map["title"]   = title;
-    return map;
-}
-
-bool Item::isChecked() const
-{
-    return checked;
-}
-
 Singleton::Singleton(QObject* parent)
     : QObject{parent}
 {
+    model = new Model(this);
 }
 
 void Singleton::remove(int index)
 {
-    model.remove(index);
+    model->remove(index);
     emit modelChanged();
 }
 
@@ -52,15 +20,13 @@ void Singleton::add(const QString& title)
 
 void Singleton::add(Item* item)
 {
-    model.append(QVariant::fromValue(qobject_cast<QObject*>(item)));
+    model->add(item);
     emit modelChanged();
 }
 
 void Singleton::sortByChecked()
 {
-    std::sort(model.begin(), model.end(), [](QVariant const& a, QVariant const& b) {
-        return a.value<Item*>()->isChecked() > b.value<Item*>()->isChecked();
-    });
+    model->sortByChecked();
     emit modelChanged();
 }
 
@@ -80,10 +46,10 @@ bool Singleton::loadSettings()
 bool Singleton::saveSettings()
 {
     settings.beginWriteArray("items");
-    for (int i = 0; i < model.size(); ++i)
+    for (int i = 0; i < model->count(); ++i)
     {
         settings.setArrayIndex(i);
-        settings.setValue("item", model[i].value<Item*>()->toVariantMap());
+        settings.setValue("item", model->at(i)->toVariantMap());
     }
     settings.endArray();
     settings.sync();

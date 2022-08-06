@@ -11,6 +11,8 @@ qt_add_executable(appshoppinglist
     main.cpp
     singleton.h
     singleton.cpp
+    model.h
+    model.cpp
 )
 
 qt_add_qml_module(appshoppinglist

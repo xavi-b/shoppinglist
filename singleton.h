@@ -5,34 +5,12 @@
 #include <QVariantList>
 #include <QSettings>
 
-class Item : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString title MEMBER title NOTIFY titleChanged)
-    Q_PROPERTY(bool checked MEMBER checked NOTIFY checkedChanged)
-
-public:
-    Item(QObject* parent = nullptr);
-    Item(QString title, bool checked = false, QObject* parent = nullptr);
-
-    static Item* fromVariantMap(QVariantMap const& map);
-    QVariantMap  toVariantMap() const;
-
-    bool isChecked() const;
-
-signals:
-    void titleChanged();
-    void checkedChanged();
-
-private:
-    QString title;
-    bool    checked = false;
-};
+#include "model.h"
 
 class Singleton : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QVariantList model MEMBER model NOTIFY modelChanged)
+    Q_PROPERTY(Model* model MEMBER model NOTIFY modelChanged)
 
 public:
     explicit Singleton(QObject* parent = nullptr);
@@ -54,8 +32,8 @@ signals:
     void modelChanged();
 
 private:
-    QVariantList model;
-    QSettings    settings;
+    Model*    model;
+    QSettings settings;
 };
 
 #endif // SINGLETON_H
