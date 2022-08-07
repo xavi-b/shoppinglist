@@ -135,11 +135,7 @@ Window {
                 anchors.bottom: parent.bottom
                 anchors.margins: 5
                 text: "U"
-                onClicked: {
-                    for (var i = 0; i < Singleton.model.length; ++i) {
-                        Singleton.model[i].checked = false
-                    }
-                }
+                onClicked: Singleton.uncheckAll()
             }
 
             RoundButton {

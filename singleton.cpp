@@ -30,6 +30,12 @@ void Singleton::sortByChecked()
     emit modelChanged();
 }
 
+void Singleton::uncheckAll()
+{
+    model->uncheckAll();
+    emit modelChanged();
+}
+
 bool Singleton::loadSettings()
 {
     int size = settings.beginReadArray("items");

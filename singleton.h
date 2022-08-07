@@ -22,6 +22,8 @@ public:
     void add(Item* item);
     Q_INVOKABLE
     void sortByChecked();
+    Q_INVOKABLE
+    void uncheckAll();
 
     bool loadSettings();
 

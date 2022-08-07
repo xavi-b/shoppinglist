@@ -70,6 +70,14 @@ void Model::sortByChecked()
     endResetModel();
 }
 
+void Model::uncheckAll()
+{
+    beginResetModel();
+    for (int i = 0; i < items.size(); ++i)
+        items.at(i)->setChecked(false);
+    endResetModel();
+}
+
 void Model::add(Item* item)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());

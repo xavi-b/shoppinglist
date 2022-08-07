@@ -37,6 +37,7 @@ public:
     explicit Model(QObject* parent = nullptr);
 
     void sortByChecked();
+    void uncheckAll();
     void add(Item* item);
     void remove(int index);
     int  count() const;
