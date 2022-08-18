@@ -172,6 +172,7 @@ Window {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 text: popup.edit ? popup.modelData.title : ""
+                onAccepted: finishBtn.clicked()
             }
 
             Row {
@@ -189,6 +190,7 @@ Window {
                 }
 
                 Button {
+                    id: finishBtn
                     text: popup.edit ? qsTr("Edit") : qsTr("Add")
                     onClicked: {
                         if (popup.edit) {
