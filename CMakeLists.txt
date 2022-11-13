@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(shoppinglist VERSION 0.1 LANGUAGES CXX)
+project(shoppinglist VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -43,9 +43,13 @@ if(IOS)
     )
 endif()
 
+string(TIMESTAMP COPYRIGHT_YEAR "%Y")
+set(PRODUCT_BUNDLE_IDENTIFIER fr.xavi-b.xavishoppinglist)
 set_target_properties(appshoppinglist PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER fr.xavi-b.shoppinglist
+    MACOSX_BUNDLE_GUI_IDENTIFIER fr.xavi-b.xavishoppinglist
+    MACOSX_BUNDLE_BUNDLE_NAME "Xavi Shopping List"
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_COPYRIGHT "© ${COPYRIGHT_YEAR} xavi-b"
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
